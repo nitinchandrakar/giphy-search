@@ -9,6 +9,7 @@ const CardList = () => {
   const giphy = useSelector((state) => state.requestGiphy.giphy);
   const isPending = useSelector((state) => state.requestGiphy.isPending);
   const offset = useSelector((state) => state.requestGiphy.offset);
+  const limit = useSelector((state) => state.requestGiphy.limit);
   const totalpage = useSelector((state) => state.requestGiphy.totalpage);
   const searchField = useSelector((state) => state.requestGiphy.searchField);
 
@@ -22,7 +23,7 @@ const CardList = () => {
     new IntersectionObserver((entries) => {
       const first = entries[0];
       if (first.isIntersecting) {
-      setPageNum((no) => no + 1);
+      setPageNum((no) => no + limit);
       }
     })
   );

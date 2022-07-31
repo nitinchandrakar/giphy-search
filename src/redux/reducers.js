@@ -34,8 +34,11 @@ export const giphyHistory = (state = initialHistory, action = {}) => {
       }
       return state;
     case SET_HISTORY:
-      state = { ...state, historyList: [...state.historyList, action.payload] };
-      localStorage.setItem("searchHistory", state.historyList);
+      if(!state.historyList.includes(action.payload)){
+        state = { ...state, historyList: [...state.historyList, action.payload] };
+        localStorage.setItem("searchHistory", state.historyList);
+      }
+    
       return state;
 
     default:
@@ -61,7 +64,7 @@ export const requestGiphy = (state = initialStategiphy, action = {}) => {
       return Object.assign({}, state, {
         giphy: [...state.giphy, ...action.payload.data],
         isPending: false,
-        offset: state.offset + 1,
+        offset: state.offset + state.limit,
         totalpage: Number.parseInt(
           action.payload.pagination.total_count / initialStategiphy.limit
         ),
@@ -71,7 +74,7 @@ export const requestGiphy = (state = initialStategiphy, action = {}) => {
       return Object.assign({}, state, {
         giphy: [...state.giphy, ...action.payload.data],
         isPending: false,
-        offset: state.offset + 1,
+        offset: state.offset + state.limit,
         totalpage: Number.parseInt(
           action.payload.pagination.total_count / initialStategiphy.limit
         ),
